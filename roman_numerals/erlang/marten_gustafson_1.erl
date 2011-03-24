@@ -10,7 +10,8 @@
 % numeral system, and separately convert the thousands, hundreds, tens, and
 % ones" - http://en.wikipedia.org/wiki/Roman_numerals
 %
--module(roman_numerals).
+-module(marten_gustafson_1).
+-author("marten.gustafson@gmail.com").
 -export([convert/1, examples/0]).
 
 -define(ONES,       ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]).
@@ -34,9 +35,9 @@ lookup(0, _)            -> [];
 lookup(Number, Values)  -> lists:nth(Number, Values).
 
 % Demo
-examples() -> examples([1, 10, 100, 1000, 12, 123, 1234, 1990, 2008]).
+examples() -> examples([1, 10, 100, 1000, 12, 123, 1234, 1990, 2008, 3000]).
 
 examples([Number|Samples]) ->
-    io:format("~w \t= ~s~n", [Number, convert(Number)]),
+    io:format("~w \t\t= ~s~n", [Number, convert(Number)]),
     examples(Samples);
 examples([]) -> ok.
