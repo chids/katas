@@ -57,7 +57,7 @@ public class GameOfLife
 
     private static int[] summarizeNeighbours(final Generation... rotations)
     {
-        final int[] result = new int[rotations[0].size()];
+        final int[] result = new int[rotations[0].bounds.size()];
         Arrays.fill(result, 0);
         for(final Generation rotation : rotations)
         {
@@ -72,9 +72,10 @@ public class GameOfLife
     private static Generation[] rotations(final Generation generation)
     {
         return new Generation[] {
-                rotate(generation, -(generation.width - 1)), rotate(generation, -generation.width), rotate(generation, -(generation.width + 1)),
+                rotate(generation, -(generation.bounds.width - 1)), rotate(generation, -generation.bounds.width),
+                rotate(generation, -(generation.bounds.width + 1)),
                 rotate(generation, -1), generation, rotate(generation, 1),
-                rotate(generation, generation.width - 1), rotate(generation, generation.width), rotate(generation, generation.width + 1) };
+                rotate(generation, generation.bounds.width - 1), rotate(generation, generation.bounds.width), rotate(generation, generation.bounds.width + 1) };
     }
 
     private static Generation rotate(final Generation generation, final int direction)
@@ -88,11 +89,11 @@ public class GameOfLife
             // Edge wrap logic
             if(offset < 0)
             {
-                flip = generation.size() + offset;
+                flip = generation.bounds.size() + offset;
             }
-            else if(offset >= generation.size())
+            else if(offset >= generation.bounds.size())
             {
-                flip = offset - generation.size();
+                flip = offset - generation.bounds.size();
             }
             else
             {
@@ -100,7 +101,7 @@ public class GameOfLife
             }
             result[i] = flip;
         }
-        return new Generation(generation.width, generation.height, result);
+        return generation.copy(result);
     }
 
     public void renderTo(final Renderer renderer)

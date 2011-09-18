@@ -17,7 +17,8 @@ public class Mainer
         final int delay = Integer.parseInt(args[2]); // 100
         final boolean useSwing = args.length == 4;
         final Renderer renderer = createRenderer(width, height, delay, useSwing);
-        final Generation generation = new Generation(width, height, aplVideoCells(width, height));
+        final Bounds bounds = new Bounds(width, height);
+        final Generation generation = new Generation(bounds, aplVideoCells(bounds));
         for(GameOfLife game = new GameOfLife(generation);; game = game.next())
         {
             game.renderTo(renderer);
@@ -47,45 +48,40 @@ public class Mainer
         System.err.println(Mainer.class.getName() + " <width> <height> <ms-delay-between-each-generation> <use-swing>");
     }
 
-    private static int center(final int width, final int height)
-    {
-        return (width / 2) + (width * (height / 2));
-    }
-
     /**
      * Calculates the same live cell pattern as used in the APL video:
      * http://www.youtube.com/watch?v=a9xAKttWgP4
      */
-    public static int[] aplVideoCells(final int width, final int height)
+    public static int[] aplVideoCells(final Bounds bounds)
     {
-        final int center = center(width, height);
-        return new int[] { center - 1, center - width + 1, center - width, center, center + width };
+        final int center = bounds.center();
+        return new int[] { center - 1, center - bounds.width + 1, center - bounds.width, center, center + bounds.width };
     }
 
-    public static int[] block(final int width, final int height)
+    public static int[] block(final Bounds bounds)
     {
-        final int center = center(width, height);
-        return new int[] { center - width - 1, center - width, center - 1, center };
+        final int center = bounds.center();
+        return new int[] { center - bounds.width - 1, center - bounds.width, center - 1, center };
     }
 
-    public static int[] beehive(final int width, final int height)
+    public static int[] beehive(final Bounds bounds)
     {
-        final int center = center(width, height);
-        return new int[] { center - width, center - width - 1, center + 1, center - 2, (center - 1) + width, center + width };
+        final int center = bounds.center();
+        return new int[] { center - bounds.width, center - bounds.width - 1, center + 1, center - 2, (center - 1) + bounds.width, center + bounds.width };
     }
 
-    public static int[] blinker(final int width, final int height)
+    public static int[] blinker(final Bounds bounds)
     {
-        final int center = center(width, height);
+        final int center = bounds.center();
         final int left = center - 1;
         final int right = center + 1;
         return new int[] { left, center, right };
     }
 
-    public static int[] toad(final int width, final int height)
+    public static int[] toad(final Bounds bounds)
     {
-        final int row1 = center(width, height);
-        final int row2 = row1 + width;
+        final int row1 = bounds.center();
+        final int row2 = row1 + bounds.width;
         return new int[] { row1 - 1, row1, row1 + 1, row2 - 1, row2 - 2, row2 };
     }
 }

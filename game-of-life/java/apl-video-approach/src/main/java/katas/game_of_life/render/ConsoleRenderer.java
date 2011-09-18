@@ -12,11 +12,11 @@ public final class ConsoleRenderer implements Renderer
 
     public static void print(final Generation... views)
     {
-        for(int cell = 0, size = views[0].width * views[0].height; cell < size; cell += views[0].width)
+        for(int cell = 0, size = views[0].bounds.width * views[0].bounds.height; cell < size; cell += views[0].bounds.width)
         {
             for(int i = 0; i < views.length; i++)
             {
-                print(views[i], cell, cell + views[0].width);
+                print(views[i], cell, cell + views[0].bounds.width);
                 System.err.print(" | ");
             }
             System.err.println();

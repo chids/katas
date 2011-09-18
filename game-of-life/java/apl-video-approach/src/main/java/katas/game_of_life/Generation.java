@@ -1,32 +1,30 @@
 package katas.game_of_life;
+
 import java.util.BitSet;
 
 public final class Generation
 {
-    public final int height;
-    public final int width;
+    public final Bounds bounds;
     private final BitSet world;
 
-    public Generation(final int width, final int height)
+    public Generation(final Bounds bounds)
     {
-        this.width = width;
-        this.height = height;
-        this.world = new BitSet(width * height);
+        this.bounds = bounds;
+        this.world = new BitSet(bounds.size());
     }
-    
-    public Generation(final int width, final int height, final int[] alive)
+
+    public Generation(final Bounds bounds, final int[] alive)
     {
-        this(width, height);
+        this(bounds);
         for(final int cell : alive)
         {
             this.world.set(cell);
         }
     }
-    
-    private Generation(final BitSet world, final int width, final int height)
+
+    private Generation(final BitSet world, final Bounds bounds)
     {
-        this.width = width;
-        this.height = height;
+        this.bounds = bounds;
         this.world = world;
     }
 
@@ -37,7 +35,7 @@ public final class Generation
 
     public int[] alive()
     {
-        final int[] tmp = new int[size()];
+        final int[] tmp = new int[this.bounds.size()];
         int copied = 0;
         for(int i = this.world.nextSetBit(0); i >= 0; i = this.world.nextSetBit(i + 1))
         {
@@ -48,22 +46,22 @@ public final class Generation
         return result;
     }
 
-    public int size()
-    {
-        return this.width * this.height;
-    }
-
     public Generation and(final BitSet other)
     {
         final BitSet result = (BitSet)this.world.clone();
         result.and(other);
-        return new Generation(result, this.width, this.height);
+        return new Generation(result, this.bounds);
     }
 
     public Generation or(final BitSet other)
     {
         final BitSet result = (BitSet)this.world.clone();
         result.or(other);
-        return new Generation(result, this.width, this.height);
+        return new Generation(result, this.bounds);
+    }
+
+    public Generation copy(final int[] alive)
+    {
+        return new Generation(this.bounds, alive);
     }
 }
