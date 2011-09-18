@@ -36,7 +36,7 @@ public final class SwingRenderer implements Renderer
 
             {
                 this.frame.getContentPane().add(this);
-                this.frame.setSize(SwingRenderer.this.width, SwingRenderer.this.height);
+                this.frame.setSize(SwingRenderer.this.width, SwingRenderer.this.height + 22);
                 this.frame.setVisible(true);
             }
 
