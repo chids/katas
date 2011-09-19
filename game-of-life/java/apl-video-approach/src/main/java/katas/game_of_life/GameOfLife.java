@@ -30,7 +30,7 @@ public final class GameOfLife
     public GameOfLife next()
     {
         // Create all rotations for the current generation
-        final Generation[] rotations = rotations(this.generation);
+        final Generation[] rotations = Rotation.rotations(this.generation);
         // Merge all rotations and count each cells total occurrence
         // to get the total neighbour count for each cell
         final int[] sum = summarizeNeighbours(rotations);
@@ -68,43 +68,6 @@ public final class GameOfLife
             }
         }
         return result;
-    }
-
-    private static Generation[] rotations(final Generation generation)
-    {
-        final Bounds bounds = generation.bounds;
-        return new Generation[] {
-                rotate(generation, -(bounds.width - 1)), rotate(generation, -bounds.width),
-                rotate(generation, -(bounds.width + 1)),
-                rotate(generation, -1), generation, rotate(generation, 1),
-                rotate(generation, bounds.width - 1), rotate(generation, bounds.width), rotate(generation, bounds.width + 1) };
-    }
-
-    private static Generation rotate(final Generation generation, final int direction)
-    {
-        final Bounds bounds = generation.bounds;
-        final int[] alive = generation.alive();
-        final int[] result = new int[alive.length];
-        for(int i = 0; i < alive.length; i++)
-        {
-            final int offset = alive[i] + direction;
-            final int flip;
-            // Edge wrap logic
-            if(offset < 0)
-            {
-                flip = bounds.size() + offset;
-            }
-            else if(offset >= bounds.size())
-            {
-                flip = offset - bounds.size();
-            }
-            else
-            {
-                flip = offset;
-            }
-            result[i] = flip;
-        }
-        return generation.copy(result);
     }
 
     public void renderTo(final Renderer renderer)

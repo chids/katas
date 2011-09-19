@@ -20,4 +20,46 @@ public final class Bounds
     {
         return (this.width / 2) + (this.width * (this.height / 2));
     }
+
+    public int upperLeft()
+    {
+        return -lowerLeft();
+    }
+
+    public int upperRight()
+    {
+        return -lowerRight();
+    }
+
+    public int lowerLeft()
+    {
+        return below() - 1;
+    }
+
+    public int lowerRight()
+    {
+        return below() + 1;
+    }
+
+    public int below()
+    {
+        return this.width;
+    }
+
+    public int above()
+    {
+        return -below();
+    }
+
+    @SuppressWarnings("static-method")
+    public int left()
+    {
+        return -1;
+    }
+
+    @SuppressWarnings("static-method")
+    public int right()
+    {
+        return 1;
+    }
 }
