@@ -12,13 +12,13 @@ public class Mainer
     public static void main(String[] args)
     {
         assertArguments(args);
-        final int width = Integer.parseInt(args[0]); // 35;
-        final int height = Integer.parseInt(args[1]); // 15;
-        final int delay = Integer.parseInt(args[2]); // 100
+        final int width = Integer.parseInt(args[0]);
+        final int height = Integer.parseInt(args[1]);
+        final int delay = Integer.parseInt(args[2]);
         final boolean useSwing = args.length == 4;
         final Renderer renderer = createRenderer(width, height, delay, useSwing);
         final Bounds bounds = new Bounds(width, height);
-        final Generation generation = new Generation(bounds, aplVideoCells(bounds));
+        final Generation generation = PredefinedPatterns.f_pentomino(bounds);
         for(GameOfLife game = new GameOfLife(generation);; game = game.next())
         {
             game.renderTo(renderer);
@@ -41,42 +41,5 @@ public class Mainer
             System.err.println(Mainer.class.getName() + " <width> <height> <ms-delay-between-each-generation> <use-swing>");
             System.exit(-1);
         }
-    }
-
-    /**
-     * Calculates the same live cell pattern as used in the APL video:
-     * http://www.youtube.com/watch?v=a9xAKttWgP4
-     */
-    public static int[] aplVideoCells(final Bounds bounds)
-    {
-        final int center = bounds.center();
-        return new int[] { center - 1, center - bounds.width + 1, center - bounds.width, center, center + bounds.width };
-    }
-
-    public static int[] block(final Bounds bounds)
-    {
-        final int center = bounds.center();
-        return new int[] { center - bounds.width - 1, center - bounds.width, center - 1, center };
-    }
-
-    public static int[] beehive(final Bounds bounds)
-    {
-        final int center = bounds.center();
-        return new int[] { center - bounds.width, center - bounds.width - 1, center + 1, center - 2, (center - 1) + bounds.width, center + bounds.width };
-    }
-
-    public static int[] blinker(final Bounds bounds)
-    {
-        final int center = bounds.center();
-        final int left = center - 1;
-        final int right = center + 1;
-        return new int[] { left, center, right };
-    }
-
-    public static int[] toad(final Bounds bounds)
-    {
-        final int row1 = bounds.center();
-        final int row2 = row1 + bounds.width;
-        return new int[] { row1 - 1, row1, row1 + 1, row2 - 1, row2 - 2, row2 };
     }
 }
