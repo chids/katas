@@ -38,14 +38,9 @@ public class Mainer
     {
         if(args.length < 3)
         {
-            usage();
+            System.err.println(Mainer.class.getName() + " <width> <height> <ms-delay-between-each-generation> <use-swing>");
             System.exit(-1);
         }
-    }
-
-    private static void usage()
-    {
-        System.err.println(Mainer.class.getName() + " <width> <height> <ms-delay-between-each-generation> <use-swing>");
     }
 
     /**
