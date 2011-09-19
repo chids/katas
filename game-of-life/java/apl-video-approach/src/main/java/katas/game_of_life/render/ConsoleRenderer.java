@@ -14,10 +14,11 @@ public final class ConsoleRenderer implements Renderer
     {
         for(int cell = 0, size = views[0].bounds.width * views[0].bounds.height; cell < size; cell += views[0].bounds.width)
         {
+            System.err.print(" | ");
             for(int i = 0; i < views.length; i++)
             {
                 print(views[i], cell, cell + views[0].bounds.width);
-                System.err.print(" | ");
+                System.err.print("| ");
             }
             System.err.println();
         }
