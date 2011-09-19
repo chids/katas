@@ -35,6 +35,6 @@ public final class Rotation
             }
             result[i] = flip;
         }
-        return generation.copy(result);
+        return new Generation(generation.bounds, result);
     }
 }

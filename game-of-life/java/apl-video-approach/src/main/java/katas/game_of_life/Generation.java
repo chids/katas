@@ -59,9 +59,4 @@ public final class Generation
         result.or(other);
         return new Generation(result, this.bounds);
     }
-
-    public Generation copy(final int[] alive)
-    {
-        return new Generation(this.bounds, alive);
-    }
 }
