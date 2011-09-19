@@ -23,12 +23,12 @@ public final class Bounds
 
     public int upperLeft()
     {
-        return -lowerLeft();
+        return -lowerRight();
     }
 
     public int upperRight()
     {
-        return -lowerRight();
+        return -lowerLeft();
     }
 
     public int lowerLeft()
