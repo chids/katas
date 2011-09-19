@@ -18,7 +18,7 @@ import katas.game_of_life.render.Renderer;
  * 3. Any live cell with two or three live neighbours lives on to the next generation.
  * 4. Any dead cell with exactly three live neighbours becomes a live cell.
  */
-public class GameOfLife
+public final class GameOfLife
 {
     private final Generation generation;
 
@@ -36,8 +36,8 @@ public class GameOfLife
         final int[] sum = summarizeNeighbours(rotations);
         // Only keep cells that have 3 or 4 neighbours
         final BitSet[] kept = killAnythingBut3and4(sum);
-        // Keep all 3's but only keep cells with 4 neighbours that
-        // where alive in the original generation
+        // Only keep cells with 4 neighbours that where alive in the
+        // original generation (and) then add all 3's (or)
         return new GameOfLife(this.generation.and(kept[1]).or(kept[0]));
     }
 
@@ -57,7 +57,8 @@ public class GameOfLife
 
     private static int[] summarizeNeighbours(final Generation... rotations)
     {
-        final int[] result = new int[rotations[0].bounds.size()];
+        final Bounds bounds = rotations[0].bounds;
+        final int[] result = new int[bounds.size()];
         Arrays.fill(result, 0);
         for(final Generation rotation : rotations)
         {
@@ -71,15 +72,17 @@ public class GameOfLife
 
     private static Generation[] rotations(final Generation generation)
     {
+        final Bounds bounds = generation.bounds;
         return new Generation[] {
-                rotate(generation, -(generation.bounds.width - 1)), rotate(generation, -generation.bounds.width),
-                rotate(generation, -(generation.bounds.width + 1)),
+                rotate(generation, -(bounds.width - 1)), rotate(generation, -bounds.width),
+                rotate(generation, -(bounds.width + 1)),
                 rotate(generation, -1), generation, rotate(generation, 1),
-                rotate(generation, generation.bounds.width - 1), rotate(generation, generation.bounds.width), rotate(generation, generation.bounds.width + 1) };
+                rotate(generation, bounds.width - 1), rotate(generation, bounds.width), rotate(generation, bounds.width + 1) };
     }
 
     private static Generation rotate(final Generation generation, final int direction)
     {
+        final Bounds bounds = generation.bounds;
         final int[] alive = generation.alive();
         final int[] result = new int[alive.length];
         for(int i = 0; i < alive.length; i++)
@@ -89,11 +92,11 @@ public class GameOfLife
             // Edge wrap logic
             if(offset < 0)
             {
-                flip = generation.bounds.size() + offset;
+                flip = bounds.size() + offset;
             }
-            else if(offset >= generation.bounds.size())
+            else if(offset >= bounds.size())
             {
-                flip = offset - generation.bounds.size();
+                flip = offset - bounds.size();
             }
             else
             {
