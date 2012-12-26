@@ -7,6 +7,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <main.class>katas.game_of_life.Mainer</main.class>
     </properties>
     <build>
         <plugins>
@@ -29,6 +30,20 @@
                     <outputDirectory>bin</outputDirectory>
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                    <arguments>
+                        <argument>45</argument>
+                        <argument>45</argument>
+                        <argument>20</argument>
+                        <argument>true</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
