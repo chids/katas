@@ -8,6 +8,7 @@ toIs([$V | Tail], Is) -> toIs(Tail, ["IIIII" | Is]);
 toIs([C | Tail], Expanded) -> toIs(Tail, [C | Expanded]);
 toIs([], Expanded) -> lists:flatten(Expanded).
 
+sumIs([$I, $I, $I, $I, $I, $I, $I, $I, $I | Tail], Sum) -> sumIs(Tail, ["IX" | Sum]);
 sumIs([$I, $I, $I, $I, $I | Tail], Sum) -> sumIs(Tail, ["V" | Sum]);
 sumIs([$I, $I, $I, $I | Tail], Sum) -> sumIs(Tail, ["IV" | Sum]);
 sumIs([Head | Tail], Sum) -> sumIs(Tail, lists:flatten(lists:append(Sum, [Head])));
@@ -25,3 +26,4 @@ i_test() -> "V" = add("I", "IV").
 j_test() -> "V" = add("IV", "I").
 k_test() -> "VI" = add("IV", "II").
 l_test() -> "VII" = add("I", "VI").
+m_test() -> "IX" = add("IV", "V").
